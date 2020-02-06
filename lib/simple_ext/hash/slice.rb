@@ -23,4 +23,6 @@ class Hash
   def extract!(*keys)
     keys.each_with_object(self.class.new) { |key, result| result[key] = delete(key) if has_key?(key) }
   end
+
+  alias_method :extract, :slice
 end
