@@ -30,11 +30,15 @@ to require specific module
     
 You can use below apis on objects:
 
+#### Objects(String, Array, Hash, Number etc)
+    obj = 'any string' or [array] or {hash} etc
+    
+    obj.blank?     # ==> true/false
+    obj.present?   # ==> true/false
+    
+    
 #### String:
     str = "something"
-    
-    str.blank?     # ==> true/false
-    str.present?   # ==> true/false
     
     str.at:- returns a substring by position, range, regex
     str.at(0)      # ==> "s"
@@ -105,6 +109,46 @@ You can use below apis on objects:
     arr.fifth
     ...
 
+#### Hash:
+    hash = { a: 1, b: 2, c: 3 }
+    
+    hash.except(*keys):- Returns a hash with keys except given keys.
+    hash.except(:c)       # ==> { a: 1, b: 2 }
+    hash.except!(:a, :b)  # ==> { c: 3 }
+    
+    { a: 1, b: 2 }.stringify_keys   # ==> { "a" => 1, "b" => 2 }  # Convert keys to Strings  # Returns a new hash
+    { a: 1, b: 2 }.stringify_keys!  # ==> { "a" => 1, "b" => 2 }  # Convert keys to Strings  # Change same hash
+    
+    { "a" => 1, "b" => 2 }.symbolize_keys   # ==> { a: 1, b: 2 }  # Convert keys to Symbols  # Returns a new hash
+    { "a" => 1, "b" => 2 }.symbolize_keys!  # ==> { a: 1, b: 2 }  # Convert keys to Symbols  # Change same hash
+    
+    hash.assert_valid_keys:- Validates all keys in a hash, string and symbol keys are treated differently
+    { a: 1, b: 2 }.assert_valid_keys(:a, :c)  # ==> raises "ArgumentError: Unknown key: :c, Valid keys are: :a, :b
+    { a: 1, b: 2 }.assert_valid_keys(:a, :b)  # ==> Passes
+    
+    # Covert keys of hash with nested hashes and arrays.
+    hash.deep_stringify_keys
+    hash.deep_stringify_keys!
+    hash.deep_symbolize_keys
+    hash.deep_symbolize_keys!
+    
+    hash = { a: 1, b: 2, c: 3, d: 4 }
+    hash.slice(:a, :b)  # ==> {:a=>1, :b=>2}, keeps hash as it is
+    # hash.extract is same as hash.slice
+    
+    hash = { a: 1, b: 2, c: 3, d: 4 }
+    hash.slice!(:a, :b)  # ==> {:c=>3, :d=>4}, change original hash to: {:a=>1, :b=>2}
+    
+    hash = { a: 1, b: 2, c: 3, d: 4 }
+    hash.extract!(:a, :b)  # ==> {:a=>1, :b=>2}, change original hash to: {:c=>3, :d=>4}
+    
+    hash = { a: { key1: 'value1', key2: 'value2' } }
+    hash.deep_transform_values(&block) # Returns a new hash with all values converted by the block operation.
+    hash.deep_transform_values{ |value| value.to_s.upcase }  # ==> { a: { key1: 'VALUE1', key2: 'VALUE2' } }
+    
+    hash.deep_transform_values!(&block) # Change the same hash, values converted by the block operation.
+    
+    
 # Credit:
 
 All credits to Rails ActiveSupport - https://github.com/rails/rails/tree/master/activesupport 
