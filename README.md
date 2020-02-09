@@ -1,9 +1,8 @@
 # simple_ext
-Ruby objects extensions extracted from rails activesupport core extensions
+This gem provides useful Ruby object extensions, which are very helpful in day to day coding.
+This contains combination of some new added extensions + extracted from rails activesupport core extensions
 
-This gem is extracted from rails activesupport, some basic and common ruby extentions which are used most commonly on objects like array, hash, string etc.
-
-In case you dont need all the functionalities from ActiveSupport, you can use this, else go for ActiveSupport.
+Some basic and common ruby extentions which are used most commonly on objects like array, hash, string etc.
 
 # Install
 
@@ -28,7 +27,62 @@ to require specific module
     require 'simple_ext/object'
     ...
     
-You can use below apis on objects:
+You can use below extension on objects:
+
+### Extensions:
+We have added some cool extension to use, they are as below:
+
+#### Array:
+    arr.any_nil?  # Check if any element is nil in array
+    [1, 2, ' ', 4].any_nil? => false
+    [1, nil, 2, 4].any_nil? => true
+    
+    arr.any_empty?  # Check if any element is empty in array
+    [1, 2, ' ', 4].any_empty? => false
+    [1, nil, 2, 4].any_empty? => false
+    [1, '', 3, 4].any_empty? => true
+    
+    arr.any_blank?  # Check if any element is blank in array
+    [1, 2, ' ', 4].any_blank? => true
+    [1, nil, 2, 4].any_blank? => true
+    [1, '', 3, 4].any_blank? => true
+    [1, 2, 3, 4].any_blank? => false
+    
+    
+    arr.include_hash_with?(arg)  # Check if an array contains a hash with given key/value pairs
+    arr = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}]
+    arr.include_hash_with?({a: 4}) => true
+    arr.include_hash_with?({"a" => 4, "b" => 5}) => true
+    arr.include_hash_with?({a: 4, b: 6}) => false
+    
+    arr.include_string_with?(arg)   # Check if array contains a string with given substring
+    arr = ['abc', 'def', 'pqr', 'xyz']
+    arr.include_string_with?('pq')  => true
+    arr.include_string_with?('df')  => false
+    
+    arr.find_hash_with  # Find a hash from array which matches given key/value pairs
+    arr = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}]
+    arr.find_hash_with({a: 4})  => {a: 4, b: 5, c: 6}
+    arr.find_hash_with({"b" => 2, "c" => 3}) => {a: 1, b: 2, c: 3}
+    arr.find_hash_with({ a: 4, c: 8 }) => nil
+    
+    arr.select_hash_with   # Select all hash elements from an array, which matches given key/value pairs
+    arr = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}, {a: 1, b: 8, c: 9}]
+    arr.select_hash_with({ a: 1 }) => [{a: 1, b: 2, c: 3}, {a: 1, b: 8, c: 9}]
+    
+
+#### Hash: 
+    hash.sub_hash_of?  # Check if current hash is sub hash of given hash
+    {a: 1, b: 2}.sub_hash_of?({a: 1, b: 2, c: 3, d: 4}) => true
+    {a: 1, b: 2}.sub_hash_of?({a: 1, b: 5, c: 3, d: 4}) => false
+    
+    hash.sub_hash?   # Check if given hash is sub hash of current hash
+    {a: 1, b: 2, c: 3, d: 4}.sub_hash?({a: 1, b: 2}) => true
+    {a: 1, b: 2, c: 3, d: 4}.sub_hash?({c: 1, b: 2}) => false
+
+
+
+### Extensions from ActiveSupport:
 
 #### Objects(String, Array, Hash, Number etc)
     obj = 'any string' or [array] or {hash} etc
@@ -148,7 +202,9 @@ You can use below apis on objects:
     
     hash.deep_transform_values!(&block) # Change the same hash, values converted by the block operation.
     
-    
+
+# Goal: We have planned to add more & more extensions for common & frequent operations that we do on Ruby objects. And help people to fasten their development work.
+
 # Credit:
 
-All credits to Rails ActiveSupport - https://github.com/rails/rails/tree/master/activesupport 
+Credits to Rails ActiveSupport - https://github.com/rails/rails/tree/master/activesupport , for its core extentions. Which is the base of this gem.
