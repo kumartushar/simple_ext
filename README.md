@@ -26,8 +26,9 @@ to require specific module
     require 'simple_ext/string'
     require 'simple_ext/object'
     ...
-    
-You can use below extension on objects:
+
+
+You can use below extensions:
 
 ### Extensions:
 We have added some cool extension to use, they are as below:
@@ -203,7 +204,8 @@ We have added some cool extension to use, they are as below:
     hash.deep_transform_values!(&block) # Change the same hash, values converted by the block operation.
     
 
-# Goal: We have planned to add more & more extensions for common & frequent operations that we do on Ruby objects. And help people to fasten their development work.
+# Goal:
+We have planned to add more & more extensions for common & frequent operations that we do on Ruby objects. And help people to fasten their development work.
 
 # Credit:
 
