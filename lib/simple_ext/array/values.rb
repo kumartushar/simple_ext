@@ -4,18 +4,27 @@ class Array
 
   ##
   # Check if any element is nil in array
+  # [1, 2, ' ', 4].any_nil? => false
+  # [1, nil, 2, 4].any_nil? => true
   def any_nil?
     any?(&:nil?)
   end
 
   ##
   # Check if any element is empty in array
+  # [1, 2, ' ', 4].any_empty? => false
+  # [1, nil, 2, 4].any_empty? => false
+  # [1, '', 3, 4].any_empty? => true
   def any_empty?
     any? { |e| e.respond_to?(:empty?) && e.empty? }
   end
 
   ##
   # Check if any element is blank in array
+  # [1, 2, ' ', 4].any_blank? => true
+  # [1, nil, 2, 4].any_blank? => true
+  # [1, '', 3, 4].any_blank? => true
+  # [1, 2, 3, 4].any_blank? => false
   def any_blank?
     any?(&:blank?)
   end
@@ -26,7 +35,7 @@ class Array
   #
   # arr = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}]
   # arr.include_hash_with?({a: 4}) => true
-  # arr.include_hash_with?({a: 4, b: 5}) => true
+  # arr.include_hash_with?({"a" => 4, "b" => 5}) => true
   # arr.include_hash_with?({a: 4, b: 6}) => false
   def include_hash_with?(arg)
     !find_hash_with(arg).blank?
@@ -37,7 +46,7 @@ class Array
   #
   # arr = ['abc', 'def', 'pqr', 'xyz']
   # arr.include_string_with?('pq')  => true
-  # arr.include_string_with?('de')  => false
+  # arr.include_string_with?('df')  => false
   def include_string_with?(arg)
     any? { |e| e.include?(arg) }
   end
@@ -57,7 +66,7 @@ class Array
   ##
   # Select hashes from array, which matches given arg
   # arg: should be hash
-  # 
+  #
   # arr = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}, {a: 1, b: 8, c: 9}]
   # arr.select_hash_with({ a: 1 }) => [{a: 1, b: 2, c: 3}, {a: 1, b: 8, c: 9}]
   def select_hash_with(arg)
